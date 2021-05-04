@@ -14,10 +14,8 @@ const registerAPICall = ({ phone, name, email, password }) => {
                     }
                 })
                 userList.push({ id, phone, name, email, password });
-                console.log(userList);
                 resolve({token: `phfGaeiu9irpjwLaHHroTerji${id}`})
             } else {
-                console.log('rejected');
                 reject('Something wrong. Try later');
             }
         }, 1000);

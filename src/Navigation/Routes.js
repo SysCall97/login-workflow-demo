@@ -1,7 +1,6 @@
 import { AnimatePresence } from 'framer-motion';
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-// import PrivateRoute from './PrivateRoute';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import loader from '../assets/loader.gif'
 import '../css/app.css'
@@ -19,15 +18,10 @@ const Routes = () => {
                 }>
                     <AnimatePresence>
                         <Switch>
-                            {/* <PrivateRoute exact path='/'>
-                            <Redirect to='/dashboard' />
-                        </PrivateRoute>
-
-                        <PrivateRoute exact path='/dashboard'>
-                            <Index />
-                        </PrivateRoute> */}
-
-                            <Route exact path='/' component={Register} />
+                            <Route exact path='/signup' component={Register} />
+                            <Route exact path='/'>
+                                <Redirect to='/signup' />
+                            </Route>
                         </Switch>
                     </AnimatePresence>
                 </Suspense>
