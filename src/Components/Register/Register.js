@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../Redux';
 import Loader from '../Loader/Loader';
 import { motion } from 'framer-motion';
+import MatSnackbar from '../MatSnackbar/MatSnackbar';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -39,9 +40,15 @@ const useStyles = makeStyles((theme) => ({
 const Register = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+
     let loading = useSelector(state => state.user.loading);
-    let errorMessage = useSelector(state => state.user.errorMessage);
+    let errorMessage = useSelector(state => state.user.error);
     let token = useSelector(state => state.user.token);
+    let showNotification = useSelector(state => state.user.showNotification);
+
+    const [notificationType, setNotificationType] = useState('');
+    const [message, setMessage] = useState('');
+
     const registerSchema = yup.object({
         phone: yup
             .number('Enter your phone number')
@@ -68,16 +75,18 @@ const Register = () => {
             password: '',
         },
         validationSchema: registerSchema,
-        onSubmit: (values) => {
-            dispatch(register(values));
+        onSubmit: async (values) => {
+            await dispatch(register(values));
         },
     });
 
     useEffect(() => {
-        if (token?.length) {
-            console.log(token);
+        if (token?.length > 0) {
+            setNotificationType('success');
+            setMessage('Signned up successfull');
         } else if (errorMessage?.length) {
-            console.log(errorMessage);
+            setNotificationType('error');
+            setMessage(errorMessage);
         }
     }, [token, errorMessage]);
 
@@ -90,98 +99,104 @@ const Register = () => {
             {
                 loading ?
                     <Loader /> :
-                    <Container component="main" maxWidth="xs">
-                        <CssBaseline />
-                        <div className={classes.paper}>
-                            <Avatar className={classes.avatar}>
-                                <LockOutlinedIcon />
-                            </Avatar>
-                            <Typography component="h1" variant="h5">
-                                Sign up
+                    <>
+                        {
+                            showNotification && <MatSnackbar type={notificationType} message={message} openVal={true} />
+                        }
+                        <Container component="main" maxWidth="xs">
+                            <CssBaseline />
+                            <div className={classes.paper}>
+                                <Avatar className={classes.avatar}>
+                                    <LockOutlinedIcon />
+                                </Avatar>
+                                <Typography component="h1" variant="h5">
+                                    Sign up
                             </Typography>
-                            <form className={classes.form} onSubmit={formik.handleSubmit}>
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12}>
-                                        <TextField
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            id="phone"
-                                            label="Phone Number"
-                                            name="phone"
-                                            value={formik.values.phone}
-                                            onChange={formik.handleChange}
-                                            error={formik.touched.phone && Boolean(formik.errors.phone)}
-                                            helperText={formik.touched.phone && formik.errors.phone}
-                                            autoComplete="phone"
-                                        />
+                                <form className={classes.form} onSubmit={formik.handleSubmit}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                id="phone"
+                                                label="Phone Number"
+                                                name="phone"
+                                                value={formik.values.phone}
+                                                onChange={formik.handleChange}
+                                                error={formik.touched.phone && Boolean(formik.errors.phone)}
+                                                helperText={formik.touched.phone && formik.errors.phone}
+                                                autoComplete="phone"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                id="name"
+                                                label="Name"
+                                                name="name"
+                                                value={formik.values.name}
+                                                onChange={formik.handleChange}
+                                                error={formik.touched.name && Boolean(formik.errors.name)}
+                                                helperText={formik.touched.name && formik.errors.name}
+                                                autoComplete="name"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                id="email"
+                                                label="Email Address"
+                                                name="email"
+                                                value={formik.values.email}
+                                                onChange={formik.handleChange}
+                                                error={formik.touched.email && Boolean(formik.errors.email)}
+                                                helperText={formik.touched.email && formik.errors.email}
+                                                autoComplete="email"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                variant="outlined"
+                                                required
+                                                fullWidth
+                                                name="password"
+                                                label="Password"
+                                                type="password"
+                                                id="password"
+                                                value={formik.values.password}
+                                                onChange={formik.handleChange}
+                                                error={formik.touched.password && Boolean(formik.errors.password)}
+                                                helperText={formik.touched.password && formik.errors.password}
+                                                autoComplete="current-password"
+                                            />
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <TextField
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            id="name"
-                                            label="Name"
-                                            name="name"
-                                            value={formik.values.name}
-                                            onChange={formik.handleChange}
-                                            error={formik.touched.name && Boolean(formik.errors.name)}
-                                            helperText={formik.touched.name && formik.errors.name}
-                                            autoComplete="name"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <TextField
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            id="email"
-                                            label="Email Address"
-                                            name="email"
-                                            value={formik.values.email}
-                                            onChange={formik.handleChange}
-                                            error={formik.touched.email && Boolean(formik.errors.email)}
-                                            helperText={formik.touched.email && formik.errors.email}
-                                            autoComplete="email"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <TextField
-                                            variant="outlined"
-                                            required
-                                            fullWidth
-                                            name="password"
-                                            label="Password"
-                                            type="password"
-                                            id="password"
-                                            value={formik.values.password}
-                                            onChange={formik.handleChange}
-                                            error={formik.touched.password && Boolean(formik.errors.password)}
-                                            helperText={formik.touched.password && formik.errors.password}
-                                            autoComplete="current-password"
-                                        />
-                                    </Grid>
-                                </Grid>
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                    className={classes.submit}
-                                >
-                                    Sign Up
-                    </Button>
-                                <Grid container justify="flex-end">
-                                    <Grid item>
-                                        <Link href="#" variant="body2">
-                                            Already have an account? Sign in
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.submit}
+                                    >
+                                        Sign Up
+                                    </Button>
+                                    <Grid container justify="flex-end">
+                                        <Grid item>
+                                            <Link href="#" variant="body2">
+                                                Already have an account? Sign in
                             </Link>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </form>
-                        </div>
-                    </Container>}
+                                </form>
+                            </div>
+                        </Container>
+                    </>
+            }
         </motion.div>
     );
 };

@@ -3,7 +3,9 @@ import { REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "../actionT
 const initialState = {
     loading: false,
     error: '',
-    token: ''
+    token: '',
+    showNotification: false,
+    
 }
 
 const userReducer = (state = initialState, action) => {
@@ -11,17 +13,20 @@ const userReducer = (state = initialState, action) => {
         case REGISTER_REQUEST: return {
             loading: true,
             error: '',
-            token: ''
+            token: '',
+            showNotification: false
         }
         case REGISTER_SUCCESS: return {
             loading: false,
             error: '',
-            token: action.payload.token
+            token: action.payload.token,
+            showNotification: true
         }
         case REGISTER_FAILURE: return {
             loading: false,
             error: action.payload.errorMessage,
-            token: ''
+            token: '',
+            showNotification: true
         }
         default: return state
     }
