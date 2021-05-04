@@ -14,6 +14,7 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../Redux';
 import Loader from '../Loader/Loader';
+import { motion } from 'framer-motion';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -73,15 +74,19 @@ const Register = () => {
     });
 
     useEffect(() => {
-        if(token?.length) {
+        if (token?.length) {
             console.log(token);
-        } else if(errorMessage?.length) {
+        } else if (errorMessage?.length) {
             console.log(errorMessage);
         }
     }, [token, errorMessage]);
 
     return (
-        <>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+        >
             {
                 loading ?
                     <Loader /> :
@@ -177,7 +182,7 @@ const Register = () => {
                             </form>
                         </div>
                     </Container>}
-        </>
+        </motion.div>
     );
 };
 

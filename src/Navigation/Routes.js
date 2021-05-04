@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'framer-motion';
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // import PrivateRoute from './PrivateRoute';
@@ -16,8 +17,9 @@ const Routes = () => {
                         <img src={loader} alt="" />
                     </div>
                 }>
-                    <Switch>
-                        {/* <PrivateRoute exact path='/'>
+                    <AnimatePresence>
+                        <Switch>
+                            {/* <PrivateRoute exact path='/'>
                             <Redirect to='/dashboard' />
                         </PrivateRoute>
 
@@ -25,8 +27,9 @@ const Routes = () => {
                             <Index />
                         </PrivateRoute> */}
 
-                        <Route exact path='/' component={Register} />
-                    </Switch>
+                            <Route exact path='/' component={Register} />
+                        </Switch>
+                    </AnimatePresence>
                 </Suspense>
             </BrowserRouter>
         </>
