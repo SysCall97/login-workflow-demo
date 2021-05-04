@@ -4,9 +4,17 @@ const registerAPICall = ({ phone, name, email, password }) => {
     const val = Math.floor(Math.random() * 100);
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            if (val < 60) {
+            if (val < 70) {
                 const id = userList.length + 1;
+                userList.forEach((user) => {
+                    if(user.email === email) {
+                        reject('Email has already been taken');
+                    } else if(user.phone === phone) {
+                        reject('Phone number has already been taken');
+                    }
+                })
                 userList.push({ id, phone, name, email, password });
+                console.log(userList);
                 resolve({token: `phfGaeiu9irpjwLaHHroTerji${id}`})
             } else {
                 console.log('rejected');
