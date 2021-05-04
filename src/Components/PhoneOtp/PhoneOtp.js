@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: '100%', 
+        width: '100%',
         marginTop: theme.spacing(3),
     },
     submit: {
@@ -29,23 +29,23 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const EmailOtp = () => {
+const PhoneOtp = () => {
     const classes = useStyles();
 
     const emailOtpSchema = yup.object({
-        email: yup
-            .string('Enter your email')
-            .email('Enter a valid email')
-            .required('Email is required')
+        phone: yup
+            .number('Enter your phone number')
+            .min(11, 'Number must contain 11 digits')
+            .required('Phone number is required')
     });
 
     const formik = useFormik({
         initialValues: {
-            email: ''
+            phone: ''
         },
         validationSchema: emailOtpSchema,
         onSubmit: (values) => {
-            
+
         },
     });
 
@@ -62,21 +62,21 @@ const EmailOtp = () => {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sent OTP to my email
+                        Sent OTP to my phone
                     </Typography>
                     <form className={classes.form} onSubmit={formik.handleSubmit}>
                         <TextField
                             variant="outlined"
                             required
                             fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            value={formik.values.email}
+                            id="phone"
+                            label="Phone number"
+                            name="phone"
+                            value={formik.values.phone}
                             onChange={formik.handleChange}
-                            error={formik.touched.email && Boolean(formik.errors.email)}
-                            helperText={formik.touched.email && formik.errors.email}
-                            autoComplete="email"
+                            error={formik.touched.phone && Boolean(formik.errors.phone)}
+                            helperText={formik.touched.phone && formik.errors.phone}
+                            autoComplete="phone"
                         />
                         <Button
                             type="submit"
@@ -87,14 +87,15 @@ const EmailOtp = () => {
                         >
                             Send OTP
                         </Button>
-                        <Link to='/signup-phone-otp' className='link' style={{ color: 'white' }}>
+
+                        <Link to='/signup-email-otp' className='link' style={{ color: 'white' }}>
                             <Button
                                 fullWidth
                                 variant="contained"
                                 color="primary"
                                 className={classes.button}
                             >
-                                Send OTP to my phone
+                                Send OTP to my email
                             </Button>
                         </Link>
                         <Link to='/login' className='link' style={{ color: 'white' }}>
@@ -120,4 +121,4 @@ const EmailOtp = () => {
     );
 };
 
-export default EmailOtp;
+export default PhoneOtp;

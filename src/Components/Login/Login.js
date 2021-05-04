@@ -141,15 +141,16 @@ const Login = () => {
                                     >
                                         Sign In
                                     </Button>
-                                    <Button
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        color="primary"
-                                        className={classes.otpLink}
-                                    >
-                                        <Link to='/signup-email-otp' className='link' style={{color: 'white'}}>Forgot Password? Sign in via OTP</Link>
-                                    </Button>
+                                    <Link to='/signup-phone-otp' className='link' style={{ color: 'white' }}>
+                                        <Button
+                                            fullWidth
+                                            variant="contained"
+                                            color="primary"
+                                            className={classes.otpLink}
+                                        >
+                                            Forgot Password? Sign in via OTP
+                                        </Button>
+                                    </Link>
                                     <Grid container justify="flex-end">
                                         <Grid item>
                                             <Link to='/signup' className='link'>Don't have an account? Sign up</Link>
