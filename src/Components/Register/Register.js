@@ -13,8 +13,7 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../Redux';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import '../../css/app.css'
+import Loader from '../Loader/Loader';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -85,7 +84,7 @@ const Register = () => {
         <>
             {
                 loading ?
-                    <div className="loaderContainer"><CircularProgress /></div> :
+                    <Loader /> :
                     <Container component="main" maxWidth="xs">
                         <CssBaseline />
                         <div className={classes.paper}>
