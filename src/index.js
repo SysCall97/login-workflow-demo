@@ -3,11 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Routes from './Navigation/Routes';
+import { Provider } from 'react-redux';
+import { store } from './Redux/store';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Routes />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <Routes />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 

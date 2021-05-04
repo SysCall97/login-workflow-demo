@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 // import PrivateRoute from './PrivateRoute';
 
 import loader from '../assets/loader.gif'
+import '../css/app.css'
 
 const Register = lazy(() => import('../Components/Register/Register'));
 
@@ -11,7 +12,7 @@ const Routes = () => {
         <>
             <BrowserRouter>
                 <Suspense fallback={
-                    <div className="d-flex justify-content-center mt-5 pt-5">
+                    <div className="loaderContainer">
                         <img src={loader} alt="" />
                     </div>
                 }>
