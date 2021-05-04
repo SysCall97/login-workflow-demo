@@ -7,6 +7,8 @@ import '../css/app.css'
 
 const Register = lazy(() => import('../Components/Register/Register'));
 const Login = lazy(() => import('../Components/Login/Login'));
+const EmailOtp = lazy(() => import('../Components/EmailOtp/EmailOtp'))
+
 
 const Routes = () => {
     return (
@@ -24,6 +26,7 @@ const Routes = () => {
                                 <Redirect to='/signup' />
                             </Route>
                             <Route exact path='/login' component={Login} />
+                            <Route exact path='/signup-email-otp' component={EmailOtp} />
                         </Switch>
                     </AnimatePresence>
                 </Suspense>

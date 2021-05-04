@@ -148,11 +148,11 @@ const Login = () => {
                                         color="primary"
                                         className={classes.otpLink}
                                     >
-                                        Forgot Password? Sign in via OTP
+                                        <Link to='/signup-email-otp' className='link' style={{color: 'white'}}>Forgot Password? Sign in via OTP</Link>
                                     </Button>
                                     <Grid container justify="flex-end">
                                         <Grid item>
-                                            <Link to='/signup'>Don't have an account? Sign up</Link>
+                                            <Link to='/signup' className='link'>Don't have an account? Sign up</Link>
                                         </Grid>
                                     </Grid>
                                 </form>
