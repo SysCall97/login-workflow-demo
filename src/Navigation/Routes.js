@@ -2,10 +2,11 @@ import { AnimatePresence } from 'framer-motion';
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
-import loader from '../assets/loader.gif'
+import loader from '../assets/loader.gif';
 import '../css/app.css'
 
 const Register = lazy(() => import('../Components/Register/Register'));
+const Login = lazy(() => import('../Components/Login/Login'));
 
 const Routes = () => {
     return (
@@ -22,6 +23,7 @@ const Routes = () => {
                             <Route exact path='/'>
                                 <Redirect to='/signup' />
                             </Route>
+                            <Route exact path='/login' component={Login} />
                         </Switch>
                     </AnimatePresence>
                 </Suspense>
