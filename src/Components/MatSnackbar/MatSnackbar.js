@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+import { closeNotification } from '../../Redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,7 +20,8 @@ function Alert(props) {
 
 export default function MatSnackbar({ type, message, openVal }) {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(openVal);
+    const dispatch = useDispatch();
+    const [open, setOpen] = useState(openVal);
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -27,6 +30,13 @@ export default function MatSnackbar({ type, message, openVal }) {
 
         setOpen(false);
     };
+
+    useEffect(() => {
+        setTimeout(() => {
+            dispatch(closeNotification())
+        }, 2500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className={classes.root}>

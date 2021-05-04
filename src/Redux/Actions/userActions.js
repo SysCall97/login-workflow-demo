@@ -1,5 +1,6 @@
+import { signinAPICall } from "../../Helper/loginAPI"
 import { registerAPICall } from "../../Helper/registerAPI"
-import { REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "../actionTypes"
+import { CLOSE_NOTIFICATION, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "../actionTypes"
 
 const registerRequest = () => {
     return {
@@ -25,11 +26,17 @@ const registerFailure = (data) => {
     }
 }
 
+const closeNotification = () => {
+    return {
+        type: CLOSE_NOTIFICATION
+    }
+}
+
 const register = ({ phone, name, email, password }) => {
     return async (dispatch) => {
         dispatch(registerRequest());
         // mock API call;
-        registerAPICall({ phone, name, email, password })
+        await registerAPICall({ phone, name, email, password })
             .then((response) => {
                 dispatch(registerSuccess(response.token));
             })
@@ -39,6 +46,21 @@ const register = ({ phone, name, email, password }) => {
     }
 }
 
+const signIn = ({phone, password}) => {
+    return async (dispatch) => {
+        dispatch(registerRequest());
+        // mock API call;
+        await signinAPICall({ phone, password })
+            .then((response) => {
+                dispatch(registerSuccess(response.token));
+            })
+            .catch((error) => {
+                console.log(error);
+                dispatch(registerFailure(error))
+            });
+    }
+}
+
 export {
-    register
+    register, signIn, closeNotification
 }

@@ -1,4 +1,4 @@
-import { REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "../actionTypes"
+import { CLOSE_NOTIFICATION, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "../actionTypes"
 
 const initialState = {
     loading: false,
@@ -27,6 +27,10 @@ const userReducer = (state = initialState, action) => {
             error: action.payload.errorMessage,
             token: '',
             showNotification: true
+        }
+        case CLOSE_NOTIFICATION: return {
+            ...state,
+            showNotification: false
         }
         default: return state
     }

@@ -1,12 +1,14 @@
-import { Avatar, Button, Container, CssBaseline, Grid, Link, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Avatar, Button, Container, CssBaseline, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
 import { motion } from 'framer-motion';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Loader from '../Loader/Loader';
 import * as yup from 'yup';
 import MatSnackbar from '../MatSnackbar/MatSnackbar';
 import { useFormik } from 'formik';
+import { Link } from "react-router-dom";
+import { signIn } from '../../Redux';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -26,17 +28,24 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(1, 0, 2),
     },
+    otpLink: {
+        margin: theme.spacing(0, 0, 2),
+    }
 }));
 
 const Login = () => {
     const classes = useStyles();
+    const dispatch = useDispatch();
+
     let loading = useSelector(state => state.user.loading);
+    let errorMessage = useSelector(state => state.user.error);
+    let token = useSelector(state => state.user.token);
     let showNotification = useSelector(state => state.user.showNotification);
 
     const [notificationType, setNotificationType] = useState('');
     const [message, setMessage] = useState('');
 
-    const validationSchema = yup.object({
+    const loginSchema = yup.object({
         phone: yup
             .number('Enter your phone number')
             .min(11, 'Number must contain 11 digits')
@@ -52,11 +61,21 @@ const Login = () => {
             phone: '',
             password: '',
         },
-        validationSchema: validationSchema,
+        validationSchema: loginSchema,
         onSubmit: (values) => {
-
+            dispatch(signIn(values));
         },
     });
+
+    useEffect(() => {
+        if (token?.length > 0) {
+            setNotificationType('success');
+            setMessage('Signed in successfully');
+        } else if (errorMessage?.length) {
+            setNotificationType('error');
+            setMessage(errorMessage);
+        }
+    }, [token, errorMessage]);
 
     return (
         <motion.div
@@ -122,11 +141,18 @@ const Login = () => {
                                     >
                                         Sign In
                                     </Button>
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.otpLink}
+                                    >
+                                        Forgot Password? Sign in via OTP
+                                    </Button>
                                     <Grid container justify="flex-end">
                                         <Grid item>
-                                            <Link href="signup" variant="body2">
-                                                Don't have an account? Sign up
-                                            </Link>
+                                            <Link to='/signup'>Don't have an account? Sign up</Link>
                                         </Grid>
                                     </Grid>
                                 </form>

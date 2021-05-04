@@ -14,7 +14,7 @@ const registerAPICall = ({ phone, name, email, password }) => {
                     }
                 })
                 userList.push({ id, phone, name, email, password });
-                resolve({token: `phfGaeiu9irpjwLaHHroTerji${id}`})
+                resolve({token: `signuptoken${id}`})
             } else {
                 reject('Something wrong. Try later');
             }
