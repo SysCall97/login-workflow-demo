@@ -57,7 +57,7 @@ const EmailOtp = () => {
             dispatch(sendOtp({
                 email: values.email,
                 via: 'email'
-            }))
+            }));
         },
     });
 
@@ -115,7 +115,7 @@ const EmailOtp = () => {
                                         className={classes.submit}
                                     >
                                         Send OTP
-                        </Button>
+                                    </Button>
                                     <Link to='/signup-phone-otp' className='link' style={{ color: 'white' }}>
                                         <Button
                                             fullWidth
@@ -124,7 +124,7 @@ const EmailOtp = () => {
                                             className={classes.button}
                                         >
                                             Send OTP to my phone
-                            </Button>
+                                    </Button>
                                     </Link>
                                     <Link to='/login' className='link' style={{ color: 'white' }}>
                                         <Button
@@ -134,7 +134,7 @@ const EmailOtp = () => {
                                             className={classes.button}
                                         >
                                             Log in with password
-                            </Button>
+                                        </Button>
                                     </Link>
 
                                     <Grid container justify="flex-end">
