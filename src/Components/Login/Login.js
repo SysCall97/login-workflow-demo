@@ -9,6 +9,7 @@ import MatSnackbar from '../MatSnackbar/MatSnackbar';
 import { useFormik } from 'formik';
 import { Link } from "react-router-dom";
 import { signIn } from '../../Redux';
+import { phoneRegEx } from '../../Helper/const';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -46,10 +47,7 @@ const Login = () => {
     const [message, setMessage] = useState('');
 
     const loginSchema = yup.object({
-        phone: yup
-            .number('Enter your phone number')
-            .min(11, 'Number must contain 11 digits')
-            .required('Phone number is required'),
+        phone: yup.string().matches(phoneRegEx, 'Phone number is not valid'),
         password: yup
             .string('Enter your password')
             .min(8, 'Password should be of minimum 8 characters length')

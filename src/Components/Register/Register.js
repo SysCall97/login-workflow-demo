@@ -16,6 +16,7 @@ import Loader from '../Loader/Loader';
 import { Link } from "react-router-dom";
 import { motion } from 'framer-motion';
 import MatSnackbar from '../MatSnackbar/MatSnackbar';
+import { phoneRegEx } from '../../Helper/const';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -50,10 +51,7 @@ const Register = () => {
     const [message, setMessage] = useState('');
 
     const registerSchema = yup.object({
-        phone: yup
-            .number('Enter your phone number')
-            .min(11, 'Number must contain 11 digits')
-            .required('Phone number is required'),
+        phone: yup.string().matches(phoneRegEx, 'Phone number is not valid'),
         name: yup
             .string('Enter your name')
             .required('Name is required'),
