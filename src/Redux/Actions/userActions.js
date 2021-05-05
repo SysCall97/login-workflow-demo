@@ -8,7 +8,7 @@ const startProcess = () => {
     }
 }
 
-const registerSuccess = (data) => {
+const processSuccess = (data) => {
     return {
         type: REGISTER_SUCCESS,
         payload: {
@@ -17,7 +17,7 @@ const registerSuccess = (data) => {
     }
 }
 
-const registerFailure = (data) => {
+const processFailure = (data) => {
     return {
         type: REGISTER_FAILURE,
         payload: {
@@ -38,10 +38,10 @@ const register = ({ phone, name, email, password }) => {
         // mock API call;
         await registerAPICall({ phone, name, email, password })
             .then((response) => {
-                dispatch(registerSuccess(response.token));
+                dispatch(processSuccess(response.token));
             })
             .catch((error) => {
-                dispatch(registerFailure(error))
+                dispatch(processFailure(error))
             });
     }
 }
@@ -52,10 +52,10 @@ const signIn = ({phone, password}) => {
         // mock API call;
         await signinAPICall({ phone, password })
             .then((response) => {
-                dispatch(registerSuccess(response.token));
+                dispatch(processSuccess(response.token));
             })
             .catch((error) => {
-                dispatch(registerFailure(error))
+                dispatch(processFailure(error))
             });
     }
 }
