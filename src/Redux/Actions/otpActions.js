@@ -1,4 +1,5 @@
 import { emailOtp } from "../../Helper/emailOtp";
+import { phoneOtp } from "../../Helper/phoneOtp";
 import { CLOSE_NOTIFICATION, OTP_REQUEST, OTP_REQUEST_FAILURE, OTP_REQUEST_SUCCESS, SEND_SUCCESS_STATUS_OFF } from "../actionTypes";
 
 const otpRequest = () => {
@@ -45,9 +46,9 @@ const sendOtp = ({ email = '', phone = '', via = '' }) => {
                 .then((response) => dispatch(otpRequestSuccess(response)))
                 .catch((error) => dispatch(otpRequestFailure(error)));
         } else if (via === 'phone' && !!phone.length) {
-
-        } else {
-
+            await phoneOtp({ phone })
+                .then((response) => dispatch(otpRequestSuccess(response)))
+                .catch((error) => dispatch(otpRequestFailure(error)));
         }
     }
 }
