@@ -2,7 +2,7 @@
 
 ## Installation
 ```bash
-git clone https://github.com/kaziMashry/BlooDonate.git
+git clone https://github.com/kaziMashry/login-workflow-demo.git
 npm install
 npm start
 ```
