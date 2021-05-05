@@ -3,6 +3,7 @@ import { CLOSE_NOTIFICATION, OTP_REQUEST, OTP_REQUEST_FAILURE, OTP_REQUEST_SUCCE
 const initialState = {
     loading: false,
     showNotification: false,
+    sendSuccess: false,
     successMessage: '',
     errorMessage: '',
 }
@@ -12,19 +13,22 @@ const otpReducer = (state = initialState, action) => {
         case OTP_REQUEST: return {
             loading: true,
             showNotification: false,
+            sendSuccess: false,
             successMessage: '',
             errorMessage: '',
         }
 
         case OTP_REQUEST_SUCCESS: return {
             loading: false,
-            showNotification: true,
+            showNotification: false,
+            sendSuccess: true,
             successMessage: action.payload.message,
             errorMessage: '',
         }
         case OTP_REQUEST_FAILURE: return {
             loading: false,
-            showNotification: true,
+            showNotification: false,
+            sendSuccess: false,
             successMessage: '',
             errorMessage: action.payload.message,
         }

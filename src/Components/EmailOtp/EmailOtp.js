@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 const EmailOtp = () => {
     const classes = useStyles();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const emailOtpSchema = yup.object({
         email: yup

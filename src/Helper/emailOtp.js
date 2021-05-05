@@ -13,7 +13,8 @@ const emailOtp = ({ email }) => {
             const otp = getOTP(4);
             if(val < 80) {
                 userList[index].otp = otp;
-                console.log(otp);
+                console.log('email: ', email);
+                console.log('otp: ', otp);
                 resolve('OTP send to your email');
             } else {
                 reject('OTP send failed. Please try again.');
