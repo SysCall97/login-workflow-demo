@@ -1,8 +1,9 @@
 import { emailOtp } from "../../Helper/emailOtp";
 import { phoneOtp } from "../../Helper/phoneOtp";
-import { CLOSE_NOTIFICATION, OTP_REQUEST, OTP_REQUEST_FAILURE, OTP_REQUEST_SUCCESS, SEND_SUCCESS_STATUS_OFF } from "../actionTypes";
+import { signInViaOtp } from "../../Helper/signInViaOtp";
+import { CLOSE_NOTIFICATION, LOGIN_SUCCESSFULL, OTP_REQUEST, OTP_REQUEST_FAILURE, OTP_REQUEST_SUCCESS, SEND_SUCCESS_STATUS_OFF } from "../actionTypes";
 
-const otpRequest = () => {
+const startProcess = () => {
     return {
         type: OTP_REQUEST
     }
@@ -32,6 +33,24 @@ const sendSuccessOff = () => {
     }
 }
 
+const loginSuccessfull = (message) => {
+    return {
+        type: LOGIN_SUCCESSFULL,
+        payload: {
+            message
+        }
+    }
+}
+
+const loginFailure = (message) => {
+    return {
+        type: loginFailure,
+        payload: {
+            message
+        }
+    }
+}
+
 const closeOtpNotification = () => {
     return {
         type: CLOSE_NOTIFICATION
@@ -40,7 +59,7 @@ const closeOtpNotification = () => {
 
 const sendOtp = ({ email = '', phone = '', via = '' }) => {
     return async (dispatch) => {
-        dispatch(otpRequest());
+        dispatch(startProcess());
         if (via === 'email' && !!email.length) {
             await emailOtp({ email })
                 .then((response) => dispatch(otpRequestSuccess(response)))
@@ -53,8 +72,23 @@ const sendOtp = ({ email = '', phone = '', via = '' }) => {
     }
 }
 
+const otpSiginIn = ({ otp }) => {
+    return async (dispatch) => {
+        console.log(otp);
+        dispatch(startProcess());
+        await signInViaOtp({ otp })
+            .then((response) => {
+                dispatch(loginSuccessfull(response));
+            })
+            .catch((error) => {
+                dispatch(loginFailure(error))
+            });
+    }
+}
+
 export {
     sendOtp,
     sendSuccessOff,
-    closeOtpNotification
+    closeOtpNotification,
+    otpSiginIn
 }

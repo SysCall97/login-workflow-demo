@@ -1,4 +1,4 @@
-import { CLOSE_NOTIFICATION, OTP_REQUEST, OTP_REQUEST_FAILURE, OTP_REQUEST_SUCCESS, SEND_SUCCESS_STATUS_OFF } from "../actionTypes"
+import { CLOSE_NOTIFICATION, LOGIN_FAILURE, LOGIN_SUCCESSFULL, OTP_REQUEST, OTP_REQUEST_FAILURE, OTP_REQUEST_SUCCESS, SEND_SUCCESS_STATUS_OFF } from "../actionTypes"
 
 const initialState = {
     loading: false,
@@ -39,6 +39,20 @@ const otpReducer = (state = initialState, action) => {
         case SEND_SUCCESS_STATUS_OFF: return {
             ...state,
             sendSuccess: false,
+        }
+        case LOGIN_SUCCESSFULL: return {
+            loading: false,
+            showNotification: true,
+            sendSuccess: true,
+            successMessage: action.payload.message,
+            errorMessage: '',
+        }
+        case LOGIN_FAILURE: return {
+            loading: false,
+            showNotification: true,
+            sendSuccess: false,
+            successMessage: '',
+            errorMessage: action.payload.message,
         }
         default: return state
     }

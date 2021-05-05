@@ -9,6 +9,7 @@ const Register = lazy(() => import('../Components/Register/Register'));
 const Login = lazy(() => import('../Components/Login/Login'));
 const EmailOtp = lazy(() => import('../Components/EmailOtp/EmailOtp'))
 const PhoneOtp = lazy(() => import('../Components/PhoneOtp/PhoneOtp'))
+const OtpSubmit = lazy(() => import('../Components/OtpSubmit/OtpSubmit'))
 
 
 const Routes = () => {
@@ -29,6 +30,7 @@ const Routes = () => {
                             <Route exact path='/login' component={Login} />
                             <Route exact path='/signup-email-otp' component={EmailOtp} />
                             <Route exact path='/signup-phone-otp' component={PhoneOtp} />
+                            <Route exact path='/submit-otp' component={OtpSubmit} />
                         </Switch>
                     </AnimatePresence>
                 </Suspense>

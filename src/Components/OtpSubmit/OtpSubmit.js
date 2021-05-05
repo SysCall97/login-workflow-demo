@@ -1,18 +1,18 @@
 import { Avatar, Button, Container, CssBaseline, Grid, makeStyles, TextField, Typography } from '@material-ui/core';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import * as yup from 'yup';
-import { closeOtpNotification, sendOtp, sendSuccessOff } from '../../Redux';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Loader from '../Loader/Loader';
 import MatSnackbar from '../MatSnackbar/MatSnackbar';
+import * as yup from 'yup';
+import { Link } from 'react-router-dom';
+import { useFormik } from 'formik';
+import { closeOtpNotification, otpSiginIn, sendSuccessOff } from '../../Redux';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
+        marginTop: theme.spacing(15),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -23,55 +23,63 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         width: '100%',
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(1),
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+        margin: theme.spacing(1, 0, 2),
     },
     button: {
         margin: theme.spacing(0, 0, 2),
     }
 }));
 
-const EmailOtp = () => {
+const OtpSubmit = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const loading = useSelector(state => state.otp.loading);
-    const sendSuccess = useSelector(state => state.otp.sendSuccess);
-    const errorMessage = useSelector(state => state.otp.errorMessage);
-    const showNotification = useSelector(state => state.otp.showNotification);
 
-    const history = useHistory();
+    const [notificationType, setNotificationType] = useState('');
+    const [message, setMessage] = useState('');
 
-    const emailOtpSchema = yup.object({
-        email: yup
-            .string('Enter your email')
-            .email('Enter a valid email')
-            .required('Email is required')
+    let loading = useSelector(state => state.otp.loading);
+    let showNotification = useSelector(state => state.otp.showNotification);
+    let successMessage = useSelector(state => state.otp.successMessage);
+    let errorMessage = useSelector(state => state.otp.errorMessage);
+    let sendSuccess = useSelector(state => state.otp.sendSuccess);
+
+    const otpLoginSchema = yup.object({
+        otp: yup
+            .string('Enter your OTP')
+            .length(4, 'OTP must contain 4 letters')
+            .required('OTP is required'),
     });
 
     const formik = useFormik({
         initialValues: {
-            email: ''
+            otp: ''
         },
-        validationSchema: emailOtpSchema,
+        validationSchema: otpLoginSchema,
+
         onSubmit: (values) => {
-            dispatch(sendOtp({
-                email: values.email,
-                via: 'email'
+            dispatch(otpSiginIn({
+                otp: values.otp
             }));
         },
     });
 
     useEffect(() => {
-        if (sendSuccess === true) {
-            dispatch(sendSuccessOff());
-            history.push({ pathname: "/submit-otp" });
-        } else if (sendSuccess === false) {
+        if(showNotification) {
+            if(sendSuccess) {
+                setNotificationType('success');
+                setMessage(successMessage);
+                dispatch(sendSuccessOff());
+            } else {
+                setNotificationType('error');
+                setMessage(errorMessage);
+            }
             dispatch(closeOtpNotification());
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [sendSuccess]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [showNotification]);
 
     return (
         <motion.div
@@ -84,7 +92,7 @@ const EmailOtp = () => {
                     <Loader /> :
                     <>
                         {
-                            showNotification && <MatSnackbar type={'error'} message={errorMessage} openVal={true} />
+                            showNotification && <MatSnackbar type={notificationType} message={message} openVal={true} />
                         }
                         <Container component="main" maxWidth="xs">
                             <CssBaseline />
@@ -93,21 +101,23 @@ const EmailOtp = () => {
                                     <LockOutlinedIcon />
                                 </Avatar>
                                 <Typography component="h1" variant="h5">
-                                    Sent OTP to my email
+                                    Sign in via OTP
                                 </Typography>
                                 <form className={classes.form} onSubmit={formik.handleSubmit}>
                                     <TextField
                                         variant="outlined"
+                                        margin="normal"
                                         required
                                         fullWidth
-                                        id="email"
-                                        label="Email Address"
-                                        name="email"
-                                        value={formik.values.email}
+                                        label="OTP"
+                                        autoComplete="otp"
+                                        id="otp"
+                                        name="otp"
+                                        value={formik.values.otp}
                                         onChange={formik.handleChange}
-                                        error={formik.touched.email && Boolean(formik.errors.email)}
-                                        helperText={formik.touched.email && formik.errors.email}
-                                        autoComplete="email"
+                                        error={formik.touched.otp && Boolean(formik.errors.otp)}
+                                        helperText={formik.touched.otp && formik.errors.otp}
+                                        autoFocus
                                     />
                                     <Button
                                         type="submit"
@@ -116,18 +126,8 @@ const EmailOtp = () => {
                                         color="primary"
                                         className={classes.submit}
                                     >
-                                        Send OTP
+                                        Submit
                                     </Button>
-                                    <Link to='/signup-phone-otp' className='link' style={{ color: 'white' }}>
-                                        <Button
-                                            fullWidth
-                                            variant="contained"
-                                            color="primary"
-                                            className={classes.button}
-                                        >
-                                            Send OTP to my phone
-                                    </Button>
-                                    </Link>
                                     <Link to='/login' className='link' style={{ color: 'white' }}>
                                         <Button
                                             fullWidth
@@ -149,8 +149,9 @@ const EmailOtp = () => {
                         </Container>
                     </>
             }
+
         </motion.div>
     );
 };
 
-export default EmailOtp;
+export default OtpSubmit;

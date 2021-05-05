@@ -2,7 +2,7 @@ import { signinAPICall } from "../../Helper/loginAPI"
 import { registerAPICall } from "../../Helper/registerAPI"
 import { CLOSE_NOTIFICATION, REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from "../actionTypes"
 
-const registerRequest = () => {
+const startProcess = () => {
     return {
         type: REGISTER_REQUEST
     }
@@ -34,7 +34,7 @@ const closeNotification = () => {
 
 const register = ({ phone, name, email, password }) => {
     return async (dispatch) => {
-        dispatch(registerRequest());
+        dispatch(startProcess());
         // mock API call;
         await registerAPICall({ phone, name, email, password })
             .then((response) => {
@@ -48,14 +48,13 @@ const register = ({ phone, name, email, password }) => {
 
 const signIn = ({phone, password}) => {
     return async (dispatch) => {
-        dispatch(registerRequest());
+        dispatch(startProcess());
         // mock API call;
         await signinAPICall({ phone, password })
             .then((response) => {
                 dispatch(registerSuccess(response.token));
             })
             .catch((error) => {
-                console.log(error);
                 dispatch(registerFailure(error))
             });
     }

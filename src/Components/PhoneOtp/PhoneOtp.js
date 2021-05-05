@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import { closeOtpNotification, sendOtp, sendSuccessOff } from '../../Redux';
 import Loader from '../Loader/Loader';
@@ -41,6 +41,8 @@ const PhoneOtp = () => {
     const errorMessage = useSelector(state => state.otp.errorMessage);
     const showNotification = useSelector(state => state.otp.showNotification);
 
+    const history = useHistory();
+
     const phoneOtpSchema = yup.object({
         phone: yup
             .number('Enter your phone number')
@@ -63,8 +65,8 @@ const PhoneOtp = () => {
 
     useEffect(() => {
         if (sendSuccess === true) {
-            console.log('redirect');
             dispatch(sendSuccessOff());
+            history.push({ pathname: "/submit-otp" });
         } else if (sendSuccess === false) {
             dispatch(closeOtpNotification());
         }
@@ -135,7 +137,7 @@ const PhoneOtp = () => {
                                             className={classes.button}
                                         >
                                             Log in with password
-                            </Button>
+                                        </Button>
                                     </Link>
 
                                     <Grid container justify="flex-end">
