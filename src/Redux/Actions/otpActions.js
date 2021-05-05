@@ -76,7 +76,6 @@ const sendOtp = ({ email = '', phone = '', via = '' }) => {
 
 const otpSiginIn = ({ otp }) => {
     return async (dispatch) => {
-        console.log(otp);
         dispatch(startProcess());
         await signInViaOtp({ otp })
             .then((response) => {
