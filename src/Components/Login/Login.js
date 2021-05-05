@@ -64,6 +64,7 @@ const Login = () => {
         validationSchema: loginSchema,
         onSubmit: (values) => {
             dispatch(signIn(values));
+            formik.resetForm();
         },
     });
 

@@ -77,6 +77,7 @@ const Register = () => {
         validationSchema: registerSchema,
         onSubmit: (values) => {
             dispatch(register(values));
+            formik.resetForm();
         },
     });
 

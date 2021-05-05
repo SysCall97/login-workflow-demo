@@ -60,6 +60,7 @@ const PhoneOtp = () => {
                 phone: values.phone,
                 via: 'phone'
             }));
+            formik.resetForm();
         },
     });
 

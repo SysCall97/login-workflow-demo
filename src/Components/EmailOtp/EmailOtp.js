@@ -60,6 +60,7 @@ const EmailOtp = () => {
                 email: values.email,
                 via: 'email'
             }));
+            formik.resetForm();
         },
     });
 
