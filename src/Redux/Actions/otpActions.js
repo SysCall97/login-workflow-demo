@@ -1,7 +1,7 @@
 import { emailOtp } from "../../Helper/emailOtp";
 import { phoneOtp } from "../../Helper/phoneOtp";
 import { signInViaOtp } from "../../Helper/signInViaOtp";
-import { CLOSE_NOTIFICATION, LOGIN_SUCCESSFULL, OTP_REQUEST, OTP_REQUEST_FAILURE, OTP_REQUEST_SUCCESS, SEND_SUCCESS_STATUS_OFF } from "../actionTypes";
+import { CLOSE_NOTIFICATION, LOGIN_FAILURE, LOGIN_SUCCESSFULL, OTP_REQUEST, OTP_REQUEST_FAILURE, OTP_REQUEST_SUCCESS, SEND_SUCCESS_STATUS_OFF } from "../actionTypes";
 
 const startProcess = () => {
     return {
@@ -33,18 +33,19 @@ const sendSuccessOff = () => {
     }
 }
 
-const loginSuccessfull = (message) => {
+const loginSuccessfull = (token) => {
     return {
         type: LOGIN_SUCCESSFULL,
         payload: {
-            message
+            message: 'Logged in successfull',
+            token: token
         }
     }
 }
 
 const loginFailure = (message) => {
     return {
-        type: loginFailure,
+        type: LOGIN_FAILURE,
         payload: {
             message
         }
@@ -78,7 +79,7 @@ const otpSiginIn = ({ otp }) => {
         dispatch(startProcess());
         await signInViaOtp({ otp })
             .then((response) => {
-                dispatch(loginSuccessfull(response));
+                dispatch(loginSuccessfull(response.token));
             })
             .catch((error) => {
                 dispatch(loginFailure(error))

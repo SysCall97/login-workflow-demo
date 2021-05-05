@@ -63,8 +63,15 @@ const OtpSubmit = () => {
             dispatch(otpSiginIn({
                 otp: values.otp
             }));
+            formik.resetForm();
         },
     });
+
+    const resetNotification = () => {
+        setTimeout(() => {
+            dispatch(closeOtpNotification());
+        }, 2000);
+    }
 
     useEffect(() => {
         if(showNotification) {
@@ -76,7 +83,7 @@ const OtpSubmit = () => {
                 setNotificationType('error');
                 setMessage(errorMessage);
             }
-            dispatch(closeOtpNotification());
+            resetNotification();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showNotification]);
