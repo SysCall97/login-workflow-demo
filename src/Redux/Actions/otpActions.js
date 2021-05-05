@@ -1,5 +1,5 @@
 import { emailOtp } from "../../Helper/emailOtp";
-import { OTP_REQUEST, OTP_REQUEST_FAILURE, OTP_REQUEST_SUCCESS } from "../actionTypes";
+import { CLOSE_NOTIFICATION, OTP_REQUEST, OTP_REQUEST_FAILURE, OTP_REQUEST_SUCCESS, SEND_SUCCESS_STATUS_OFF } from "../actionTypes";
 
 const otpRequest = () => {
     return {
@@ -25,6 +25,18 @@ const otpRequestFailure = (message) => {
     }
 }
 
+const sendSuccessOff = () => {
+    return {
+        type: SEND_SUCCESS_STATUS_OFF
+    }
+}
+
+const closeOtpNotification = () => {
+    return {
+        type: CLOSE_NOTIFICATION
+    }
+}
+
 const sendOtp = ({ email = '', phone = '', via = '' }) => {
     return async (dispatch) => {
         dispatch(otpRequest());
@@ -41,5 +53,7 @@ const sendOtp = ({ email = '', phone = '', via = '' }) => {
 }
 
 export {
-    sendOtp
+    sendOtp,
+    sendSuccessOff,
+    closeOtpNotification
 }
