@@ -8,16 +8,17 @@ const emailOtp = ({ email }) => {
             const user = userList.find((ele) => ele.email === email);
             if (!user) {
                 reject('Email not found')
-            };
-            const index = userList.indexOf(user);
-            const otp = getOTP(4);
-            if(val < 80) {
-                userList[index].otp = otp;
-                console.log('email: ', email);
-                console.log('otp: ', otp);
-                resolve('OTP send to your email');
             } else {
-                reject('OTP send failed. Please try again.');
+                const index = userList.indexOf(user);
+                const otp = getOTP(4);
+                if(val < 80) {
+                    userList[index].otp = otp;
+                    console.log('email: ', email);
+                    console.log('otp: ', otp);
+                    resolve('OTP send to your email');
+                } else {
+                    reject('OTP send failed. Please try again.');
+                }
             }
         }, 2000);
     });
