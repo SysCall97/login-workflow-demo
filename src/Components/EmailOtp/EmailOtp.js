@@ -3,8 +3,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useFormik } from 'formik';
 import { motion } from 'framer-motion';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
+import { sendOtp } from '../../Redux';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -31,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 const EmailOtp = () => {
     const classes = useStyles();
+    const dispatch = useDispatch()
 
     const emailOtpSchema = yup.object({
         email: yup
@@ -45,7 +48,10 @@ const EmailOtp = () => {
         },
         validationSchema: emailOtpSchema,
         onSubmit: (values) => {
-            
+            dispatch(sendOtp({
+                email: values.email,
+                via: 'email'
+            }))
         },
     });
 
