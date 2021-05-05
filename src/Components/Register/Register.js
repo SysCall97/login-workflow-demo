@@ -16,7 +16,7 @@ import Loader from '../Loader/Loader';
 import { Link } from "react-router-dom";
 import { motion } from 'framer-motion';
 import MatSnackbar from '../MatSnackbar/MatSnackbar';
-import { phoneRegEx } from '../../Helper/const';
+import { MESSAGES, PASSWORD_LENGTH, phoneRegEx } from '../../Helper/const';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -51,18 +51,18 @@ const Register = () => {
     const [message, setMessage] = useState('');
 
     const registerSchema = yup.object({
-        phone: yup.string().matches(phoneRegEx, 'Phone number is not valid'),
+        phone: yup.string().matches(phoneRegEx, MESSAGES.invalidPhoneNumber),
         name: yup
-            .string('Enter your name')
-            .required('Name is required'),
+            .string(MESSAGES.enterName)
+            .required(MESSAGES.requiredName),
         email: yup
-            .string('Enter your email')
-            .email('Enter a valid email')
-            .required('Email is required'),
+            .string(MESSAGES.enterEmail)
+            .email(MESSAGES.enterValidEmail)
+            .required(MESSAGES.requiredEmail),
         password: yup
-            .string('Enter your password')
-            .min(8, 'Password should be of minimum 8 characters length')
-            .required('Password is required'),
+            .string(MESSAGES.enterPassword)
+            .min(PASSWORD_LENGTH, MESSAGES.passwordLength)
+            .required(MESSAGES.requiredPassword),
     });
 
     const formik = useFormik({
@@ -82,7 +82,7 @@ const Register = () => {
     useEffect(() => {
         if (token?.length > 0) {
             setNotificationType('success');
-            setMessage('Signned up successfully');
+            setMessage(MESSAGES.successfullSignUp);
         } else if (errorMessage?.length) {
             setNotificationType('error');
             setMessage(errorMessage);

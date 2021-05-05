@@ -1,3 +1,4 @@
+import { MESSAGES } from "./const";
 import { userList } from "./users"
 
 const registerAPICall = ({ phone, name, email, password }) => {
@@ -8,15 +9,15 @@ const registerAPICall = ({ phone, name, email, password }) => {
                 const id = userList.length + 1;
                 userList.forEach((user) => {
                     if(user.email === email) {
-                        reject('Email has already been taken');
+                        reject(MESSAGES.emailAlreadyUsed);
                     } else if(user.phone === phone) {
-                        reject('Phone number has already been taken');
+                        reject(MESSAGES.phoneAlreadyUsed);
                     }
                 })
                 userList.push({ id, phone, name, email, password });
                 resolve({token: `signuptoken${id}`})
             } else {
-                reject('Something wrong. Try later');
+                reject(MESSAGES.unknownError);
             }
         }, 1000);
 

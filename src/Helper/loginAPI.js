@@ -1,3 +1,4 @@
+import { MESSAGES } from "./const";
 import { userList } from "./users"
 
 const signinAPICall = ({ phone, password }) => {
@@ -10,10 +11,10 @@ const signinAPICall = ({ phone, password }) => {
                     const id = userList.length + 1;
                     resolve({token: `loginToken${id}`});
                 } else {
-                    reject('Password not matched');
+                    reject(MESSAGES.passwordNotMatched);
                 }
             } else {
-                reject('User not found');
+                reject(MESSAGES.userNotFound);
             }
         }, 1000);
 

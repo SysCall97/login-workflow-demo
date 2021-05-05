@@ -1,3 +1,4 @@
+import { MESSAGES } from "./const";
 import { getOTP } from "./getOtp";
 import { userList } from "./users";
 
@@ -7,7 +8,7 @@ const phoneOtp = ({ phone }) => {
         setTimeout(() => {
             const user = userList.find((ele) => ele.phone === phone);
             if (!user) {
-                reject('Phone number not found')
+                reject(MESSAGES.userNotFound)
             } else {
                 const index = userList.indexOf(user);
                 const otp = getOTP(4);
@@ -15,9 +16,9 @@ const phoneOtp = ({ phone }) => {
                     userList[index].otp = otp;
                     console.log('phone: ', phone);
                     console.log('otp: ', otp);
-                    resolve('OTP send to your phone');
+                    resolve(MESSAGES.otpSendToPhone);
                 } else {
-                    reject('OTP send failed. Please try again.');
+                    reject(MESSAGES.otpSendFailed);
                 }
             }
         }, 2000);

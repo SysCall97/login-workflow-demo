@@ -1,3 +1,4 @@
+import { MESSAGES } from "./const";
 import { userList } from "./users";
 
 export const signInViaOtp = ({otp}) => {
@@ -7,7 +8,7 @@ export const signInViaOtp = ({otp}) => {
             if(!!userEntry?.length) {
                 resolve({token: `otpLoginToken${userEntry[0]?.id}`});
             } else {
-                reject('OTP not matched');
+                reject(MESSAGES.otpNotMatched);
             }
         }, 1000);
 

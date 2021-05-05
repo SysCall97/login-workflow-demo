@@ -9,7 +9,7 @@ import MatSnackbar from '../MatSnackbar/MatSnackbar';
 import { useFormik } from 'formik';
 import { Link } from "react-router-dom";
 import { signIn } from '../../Redux';
-import { phoneRegEx } from '../../Helper/const';
+import { PASSWORD_LENGTH, phoneRegEx, MESSAGES } from '../../Helper/const';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -47,11 +47,11 @@ const Login = () => {
     const [message, setMessage] = useState('');
 
     const loginSchema = yup.object({
-        phone: yup.string().matches(phoneRegEx, 'Phone number is not valid'),
+        phone: yup.string().matches(phoneRegEx, MESSAGES.invalidPhoneNumber),
         password: yup
-            .string('Enter your password')
-            .min(8, 'Password should be of minimum 8 characters length')
-            .required('Password is required'),
+            .string(MESSAGES.enterPassword)
+            .min(PASSWORD_LENGTH, MESSAGES.passwordLength)
+            .required(MESSAGES.requiredPassword),
     });
 
     const formik = useFormik({
@@ -69,7 +69,7 @@ const Login = () => {
     useEffect(() => {
         if (token?.length > 0) {
             setNotificationType('success');
-            setMessage('Signed in successfully');
+            setMessage(MESSAGES.successfullSignIn);
         } else if (errorMessage?.length) {
             setNotificationType('error');
             setMessage(errorMessage);

@@ -1,3 +1,4 @@
+import { MESSAGES } from "../../Helper/const";
 import { emailOtp } from "../../Helper/emailOtp";
 import { phoneOtp } from "../../Helper/phoneOtp";
 import { signInViaOtp } from "../../Helper/signInViaOtp";
@@ -37,7 +38,7 @@ const loginSuccessfull = (token) => {
     return {
         type: LOGIN_SUCCESSFULL,
         payload: {
-            message: 'Logged in successfull',
+            message: MESSAGES.successfullSignIn,
             token: token
         }
     }

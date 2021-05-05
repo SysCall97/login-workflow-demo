@@ -9,6 +9,7 @@ import * as yup from 'yup';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { closeOtpNotification, otpSiginIn, sendSuccessOff } from '../../Redux';
+import { MESSAGES, OTP_LENGTH } from '../../Helper/const';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -48,9 +49,9 @@ const OtpSubmit = () => {
 
     const otpLoginSchema = yup.object({
         otp: yup
-            .string('Enter your OTP')
-            .length(4, 'OTP must contain 4 letters')
-            .required('OTP is required'),
+            .string(MESSAGES.enterOtp)
+            .length(OTP_LENGTH, MESSAGES.otpLength)
+            .required(MESSAGES.requiredOtp),
     });
 
     const formik = useFormik({

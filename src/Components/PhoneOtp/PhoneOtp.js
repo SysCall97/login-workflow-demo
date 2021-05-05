@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import * as yup from 'yup';
-import { phoneRegEx } from '../../Helper/const';
+import { MESSAGES, phoneRegEx } from '../../Helper/const';
 import { closeOtpNotification, sendOtp, sendSuccessOff } from '../../Redux';
 import Loader from '../Loader/Loader';
 import MatSnackbar from '../MatSnackbar/MatSnackbar';
@@ -45,7 +45,7 @@ const PhoneOtp = () => {
     const history = useHistory();
 
     const phoneOtpSchema = yup.object({
-        phone: yup.string().matches(phoneRegEx, 'Phone number is not valid'),
+        phone: yup.string().matches(phoneRegEx, MESSAGES.invalidPhoneNumber),
     });
 
     const formik = useFormik({
