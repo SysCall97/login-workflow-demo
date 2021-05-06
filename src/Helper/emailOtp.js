@@ -1,4 +1,4 @@
-import { MESSAGES } from "./const";
+import { MESSAGES, OTP_LENGTH } from "./const";
 import { getOTP } from "./getOtp";
 import { userList } from "./users";
 
@@ -11,7 +11,7 @@ const emailOtp = ({ email }) => {
                 reject(MESSAGES.emailNotFound)
             } else {
                 const index = userList.indexOf(user);
-                const otp = getOTP(4);
+                const otp = getOTP(OTP_LENGTH);
                 if(val < 80) {
                     userList[index].otp = otp;
                     console.log('email: ', email);
