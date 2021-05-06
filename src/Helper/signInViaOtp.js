@@ -4,11 +4,13 @@ import { userList } from "./users";
 export const signInViaOtp = ({otp}) => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            const userEntry = userList.filter((user) => user.otp === otp);
-            if(!!userEntry?.length) {
-                resolve({token: `otpLoginToken${userEntry[0]?.id}`});
-            } else {
+            const user = userList.find((ele) => ele.otp === otp);
+            if(!user) {
                 reject(MESSAGES.otpNotMatched);
+            } else {
+                const index = userList.indexOf(user);
+                userList[index].otp = null;
+                resolve({token: `otpLoginToken${user.id}`});
             }
         }, 1000);
 
