@@ -1,4 +1,4 @@
-import { MESSAGES } from "../../Helper/const";
+import { MESSAGES, VIA } from "../../Helper/const";
 import { emailOtp } from "../../Helper/emailOtp";
 import { phoneOtp } from "../../Helper/phoneOtp";
 import { signInViaOtp } from "../../Helper/signInViaOtp";
@@ -62,11 +62,11 @@ const closeOtpNotification = () => {
 const sendOtp = ({ email = '', phone = '', via = '' }) => {
     return async (dispatch) => {
         dispatch(startProcess());
-        if (via === 'email' && !!email.length) {
+        if (via === VIA.email && !!email.length) {
             await emailOtp({ email })
                 .then((response) => dispatch(otpRequestSuccess(response)))
                 .catch((error) => dispatch(otpRequestFailure(error)));
-        } else if (via === 'phone' && !!phone.length) {
+        } else if (via === VIA.phone && !!phone.length) {
             await phoneOtp({ phone })
                 .then((response) => dispatch(otpRequestSuccess(response)))
                 .catch((error) => dispatch(otpRequestFailure(error)));

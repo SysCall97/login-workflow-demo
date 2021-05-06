@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import * as yup from 'yup';
-import { MESSAGES, phoneRegEx } from '../../Helper/const';
+import { MESSAGES, phoneRegEx, VIA } from '../../Helper/const';
 import { closeOtpNotification, sendOtp, sendSuccessOff } from '../../Redux';
 import Loader from '../Loader/Loader';
 import MatSnackbar from '../MatSnackbar/MatSnackbar';
@@ -56,7 +56,7 @@ const PhoneOtp = () => {
         onSubmit: (values) => {
             dispatch(sendOtp({
                 phone: values.phone,
-                via: 'phone'
+                via: VIA.phone
             }));
             formik.resetForm();
         },
